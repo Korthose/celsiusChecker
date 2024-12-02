@@ -1,10 +1,9 @@
 import time
-from time import sleep
-
 import board
 import adafruit_dht
 
-sensor = adafruit_dht.DHT11(board.D4)
+# D3 da GPI04 mit adafruit Probleme hat
+sensor = adafruit_dht.DHT11(board.D3)
 
 while True:
     try:
