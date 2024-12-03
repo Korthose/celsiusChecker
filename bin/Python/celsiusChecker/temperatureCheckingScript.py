@@ -20,9 +20,12 @@ while True:
         temperature_c = sensor.temperature
         temperature_f = temperature_c * (9 / 5) + 32
 
-        query = "INSERT INTO 'temperatures' ('celsius', 'fahrenheit', 'date', 'time') VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, ('{0:0.1f}'.filter(temperature_c), '{0:0.1f}'.filter(temperature_f), currentTime.date(), currentTime.time))
+        # Format the values before binding
+        temperature_c_formatted = f"{temperature_c:0.1f}"
+        temperature_f_formatted = f"{temperature_f:0.1f}"
 
+        query = "INSERT INTO temperatures (celsius, fahrenheit, date, time) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (temperature_c_formatted, temperature_f_formatted, currentTime.date(), currentTime.time()))
         connection.commit()
 
     except RuntimeError as error:
