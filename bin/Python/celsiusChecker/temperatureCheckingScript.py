@@ -21,7 +21,7 @@ while True:
         temperature_f = temperature_c * (9 / 5) + 32
 
         query = "INSERT INTO 'temperatures' ('celsius', 'fahrenheit', 'date', 'time') VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (temperature_c, temperature_f, currentTime.date(), currentTime.time))
+        cursor.execute(query, ('{0:0.1f}'.filter(temperature_c), '{0:0.1f}'.filter(temperature_f), currentTime.date(), currentTime.time))
 
         connection.commit()
 
