@@ -1,26 +1,29 @@
 import time
+from datetime import datetime
+
 import board
 import adafruit_dht
 
-# D3 da GPI04 mit adafruit Probleme hat
+from databaseConnection import databaseConnection
+
+# D3 because GPI04 returns problems with adafruit
 sensor = adafruit_dht.DHT11(board.D3)
 
 while True:
-    try:
-        # Print the values to the serial port
-        temperature_c = sensor.temperature
-        temperature_f = temperature_c * (9 / 5) + 32
-        humidity = sensor.humidity
-        print("Temp={0:0.1f}ºC, Temp={1:0.1f}ºF, Humidity={2:0.1f}%".format(temperature_c, temperature_f, humidity))
+    # time tool
+    currentTime = datetime.now()
 
-    except RuntimeError as error:
-        # Errors happen fairly often, DHT's are hard to read, just keep going
-        print(error.args[0])
-        time.sleep(2.0)
-        continue
-    except Exception as error:
-        sensor.exit()
-        raise error
+    # connection to the database
+    connection = databaseConnection()
+    cursor = connection.cursor()
+
+    temperature_c = sensor.temperature
+    temperature_f = temperature_c * (9 / 5) + 32
+
+    query = "INSERT INTO 'temperatures' ('celsius', 'fahrenheit', 'date', 'time') VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (temperature_c, temperature_f, currentTime.date(), currentTime.time))
+
+    connection.commit()
 
 
-    time.sleep(5.0)
+time.sleep(10.0)
