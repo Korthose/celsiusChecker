@@ -16,16 +16,17 @@ while True:
         # connection to the database
         connection = databaseConnection()
         cursor = connection.cursor()
-
         temperature_c = sensor.temperature
         temperature_f = temperature_c * (9 / 5) + 32
+        humidity = sensor.humidity
 
         # Format the values before binding
         temperature_c_formatted = f"{temperature_c:0.1f}"
         temperature_f_formatted = f"{temperature_f:0.1f}"
+        humidity_formatted = f"{humidity:0.1f}"
 
-        query = "INSERT INTO temperatures (celsius, fahrenheit, date, time) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (temperature_c_formatted, temperature_f_formatted, currentTime.date(), currentTime.time()))
+        query = "INSERT INTO temperatures (celsius, fahrenheit,humidity, date, time) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(query, (temperature_c_formatted, temperature_f_formatted, humidity_formatted, currentTime.date(), currentTime.time()))
         connection.commit()
 
     except RuntimeError as error:
