@@ -11,10 +11,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">Aktuelle Temperatur</span></a>
+                <a class="nav-link" href="#">Current Temperature</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Letzte 5 Tage</a>
+                <a class="nav-link" href="#">Last 5 Days</a>
             </li>
         </ul>
     </div>

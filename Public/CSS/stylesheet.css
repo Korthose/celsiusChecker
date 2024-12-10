@@ -1,5 +1,6 @@
 .html{
     font-size: 15px;
+    font-family: "Roboto Light";
 }
 /* navbar */
 
@@ -12,7 +13,7 @@
 
 /* card styling */
 
-.card{
+.card {
     border: 2px solid #c3c3f3;
     background-color: #c3c3ff;
 }

@@ -13,10 +13,7 @@
 <body>
 <div class="container">
     <?php require __DIR__ . '/../Partials/navbar.php'; ?>
-    <div class="d-flex row justify-content-center">
-        <!--falls aktuelle temperatur-->
-        <?php require __DIR__ . '/../Partials/temperatureCard.php' ?>
-    </div>
+    <?= $content ?>
 </div>
 </body>
 </html>
