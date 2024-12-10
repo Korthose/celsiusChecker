@@ -1,0 +1,42 @@
+.html{
+    font-size: 15px;
+}
+/* navbar */
+
+.cc-navbar{
+    background-color: red;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+}
+
+/* card styling */
+
+.card{
+    border: 2px solid #c3c3f3;
+    background-color: #c3c3ff;
+}
+
+.celsius{
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10rem;
+}
+
+.miscellaneous{
+    height: 25%;
+}
+
+.fahrenheit, .humidity, .timer{
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .cc-navbar{
+        width: fit-content;
+    }
+}
