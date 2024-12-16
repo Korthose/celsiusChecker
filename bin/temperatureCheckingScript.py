@@ -1,8 +1,8 @@
 import time
 from datetime import datetime
 
-import board
 import adafruit_dht
+import board
 
 from databaseConnection import databaseConnection
 
@@ -25,7 +25,7 @@ while True:
         temperature_f_formatted = f"{temperature_f:0.1f}"
         humidity_formatted = f"{humidity:0.1f}"
 
-        query = "INSERT INTO temperatures (celsius, fahrenheit,humidity, date, time) VALUES (%s, %s, %s, %s, %s)"
+        query = "INSERT INTO temperatures (celsius, fahrenheit, humidity, date, time) VALUES (%s, %s, %s, %s, %s)"
         cursor.execute(query, (temperature_c_formatted, temperature_f_formatted, humidity_formatted, currentTime.date(), currentTime.time()))
         connection.commit()
 
@@ -37,5 +37,4 @@ while True:
     except Exception as error:
         sensor.exit()
         raise error
-
-time.sleep(10.0)
+    time.sleep(60)
