@@ -2,7 +2,7 @@
 //    TODO
 //    - Links festlegen mit klein
 ?>
-<nav class="cc-navbar navbar navbar-expand-lg navbar-light">
+<nav class="cc-navbar navbar navbar-expand-sm navbar-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,11 +10,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Current Temperature</a>
+            <li class="nav-item <?= $currentTemperature ?? false == true ? 'active' : ''; ?>">
+                <a class="nav-link" href="../Views/index.php">Current Temperature</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Last 5 Days</a>
+            <li class="nav-item <?= $temperatureSummary ?? false == true ? 'active' : ''; ?>">
+                <a class="nav-link" href="../Views/summary.php">Last 5 Days</a>
             </li>
         </ul>
     </div>
