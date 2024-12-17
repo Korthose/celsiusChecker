@@ -32,7 +32,7 @@ while True:
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
         print(error.args[0])
-        time.sleep(0.1)
+        time.sleep(1 / 1000)
         continue
     except Exception as error:
         sensor.exit()
