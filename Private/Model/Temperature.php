@@ -80,36 +80,58 @@ class temperature
 
         foreach ($items as $item) {
             $fetchAll[$item['id']] = new temperature($item['id'],
-                                                            $item['celsius'],
-                                                            $item['fahrenheit'],
-                                                            $item['humidity'],
-                                                            $item['date'],
-                                                            $item['time']);
+                $item['celsius'],
+                $item['fahrenheit'],
+                $item['humidity'],
+                $item['date'],
+                $item['time']);
         }
 
         return $fetchAll;
     }
 
-    public static function last5Days($count){
+    public static function last5Days($count)
+    {
         $pdo = getPDO();
-        $last5Days = [];
-        $stmt = $pdo->prepare("SELECT AVG(celsius) as 'avg_celsius', AVG(fahrenheit) as 'avg_fahrenheit', AVG(humidity) AS 'avg_humidity', 
-                                     MAX(celsius) as 'max_celsius', MAX(fahrenheit) as 'max_fahrenheit',
-                                     MIN(celsius) as min_celsius, MIN(fahrenheit) as min_fahrenheit, date 
-                                     FROM temperatures WHERE date < NOW() - INTERVAL ? DAY;");
+        $summary = [];
 
-        for ($i = 0; $i <= $count; $i++){
-            if (!$stmt->execute([$i])) {
-                return null;
-            }
+        $stmt = $pdo->prepare("SELECT 
+    ROUND(AVG(celsius), 2) AS 'avg_celsius', 
+    ROUND(AVG(fahrenheit), 2) AS 'avg_fahrenheit', 
+    ROUND(AVG(humidity), 0) AS 'avg_humidity', 
+    ROUND(MAX(celsius), 2) AS 'max_celsius', 
+    ROUND(MAX(fahrenheit), 2) AS 'max_fahrenheit', 
+    ROUND(MIN(celsius), 2) AS 'min_celsius', 
+    ROUND(MIN(fahrenheit), 2) AS 'min_fahrenheit', 
+    DATE(date) AS 'date'
+    FROM (
+        SELECT DISTINCT DATE(date) AS unique_date 
+        FROM temperatures 
+        WHERE DATE(date) < CURDATE() 
+        ORDER BY unique_date DESC 
+        LIMIT ?
+    ) AS recent_dates
+        JOIN temperatures ON DATE(temperatures.date) = recent_dates.unique_date
+        GROUP BY DATE(temperatures.date)
+        ORDER BY DATE(temperatures.date);
 
-            $summary = $stmt->fetch();
-            $last5Days[$summary['date']] = array($summary['avg_celsius'], $summary['avg_fahrenheit'], $summary['avg_humidity'],
-                             $summary['max_celsius'], $summary['max_fahrenheit'], $summary['min_celsius'],
-                             $summary['min_fahrenheit'], $summary['date']);
+");
+        $stmt->execute([$count]);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($items as $item) {
+            $summary[$item['date']] = [
+                'avg_celsius' => $item['avg_celsius'],
+                'avg_fahrenheit' => $item['avg_fahrenheit'],
+                'avg_humidity' => $item['avg_humidity'],
+                'min_celsius' => $item['min_celsius'],
+                'min_fahrenheit' => $item['min_fahrenheit'],
+                'max_celsius' => $item['max_celsius'],
+                'max_fahrenheit' => $item['max_fahrenheit'],
+            ];
         }
 
-        return $last5Days;
+        return $summary;
     }
 
     public static function newestTemperature()
