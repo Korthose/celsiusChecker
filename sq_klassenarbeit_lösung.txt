@@ -1,0 +1,17 @@
+Aufgabe1
+SELECT k.kundennr, k.firma, k.strasse, o.plz, o.ort  FROM kunden k INNER JOIN orte o ON k.ortnr = o.ortnr WHERE o.ort = "Stuttgart" OR o.ort = "Ulm, Donau" ORDER BY o.ort
+
+Aufgabe2
+SELECT k.firma, o.plz, o.ort, ko.rabatt  FROM kunden k INNER JOIN konditionen ko ON k.konditnr = ko.konditnr INNER JOIN orte o ON k.ortnr = o.ortnr WHERE ko.rabatt = 10
+
+Aufgabe3
+SELECT k.kundennr, k.firma, o.plz, k.strasse, o.ort FROM kunden k INNER JOIN orte o ON k.ortnr = o.ortnr INNER JOIN lieferbedingung l ON k.lbnr = l.lbnr WHERE l.bedingung = "ab Werk"
+
+Aufgabe4
+SELECT f.fertigerznr, f.bezeichnung, f.herstellkosten, z.zuschlagsnr, z.zuschlagssatz FROM fertigerzeugnisse f INNER JOIN zuschlaege z ON f.zuschlagsnr = z.zuschlagsnr WHERE f.produktgruppe = "I"
+
+Aufgabe5
+SELECT f.fertigerznr, f.bezeichnung, f.herstellkosten, z.zuschlagssatz, f.herstellkosten + f.herstellkosten * z.zuschlagssatz / 100 AS "BruttoVerkaufspreis" FROM fertigerzeugnisse f INNER JOIN zuschlaege z ON f.zuschlagsnr = z.zuschlagsnr ORDER BY f.herstellkosten + f.herstellkosten
+
+Aufgabe 6 
+SELECT k.kundennr, k.firma, o.plz, o.plz, a.auftragsdat, au.fertigerznr, au.menge, f.bezeichnung FROM kunden k INNER JOIN orte o ON k.ortnr = o.ortnr INNER JOIN auftraege a ON k.kundennr = a.kundennr INNER JOIN auftragspositionen au ON a.auftragsnr = au.auftragsnr INNER JOIN fertigerzeugnisse f ON au.fertigerznr = f.fertigerznr WHERE k.kundennr = 270042 AND a.auftragsdat LIKE "2013-06-%"
